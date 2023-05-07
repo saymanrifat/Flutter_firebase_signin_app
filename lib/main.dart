@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_signin_app/home.dart';
 import 'package:flutter_firebase_signin_app/register.dart';
 
-import 'first.dart';
 import 'login.dart';
 
 void main() async {
@@ -12,7 +11,6 @@ void main() async {
         initialRoute: state,
         debugShowCheckedModeBanner: false,
         routes: {
-          'first': (context) => MyFirst(),
           'register': (context) => MyRegister(),
           'login': (context) => MyLogin(),
           'home': (context) => MyHome(),

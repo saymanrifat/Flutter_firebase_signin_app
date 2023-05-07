@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_signin_app/my_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MyRegister extends StatefulWidget {
@@ -48,7 +49,7 @@ class _MyRegisterState extends State<MyRegister> {
                           .createUserWithEmailAndPassword(
                               email: email, password: pass);
 
-                      myToast('Welcome');
+                      MyToast.showToast(context, 'Sign up Successfull');
 
                       Navigator.pushNamed(context, 'home');
                     } on FirebaseAuthException catch (e) {

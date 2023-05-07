@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_firebase_signin_app/my_toast.dart';
+import 'package:toastification/toastification.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -40,25 +41,43 @@ class _MyLoginState extends State<MyLogin> {
                 ),
                 obscureText: true,
               ),
-              ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      UserCredential userCredential = await FirebaseAuth
-                          .instance
-                          .signInWithEmailAndPassword(
-                              email: email, password: pass);
+              SizedBox(
+                height: 15,
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
+                                    email: email, password: pass);
 
-                      myToast('Welcome');
-                      Navigator.pushNamed(context, 'home');
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
-                        myToast('No user found for that email.');
-                      } else if (e.code == 'wrong-password') {
-                        myToast('Wrong password provided for that user.');
-                      }
-                    }
-                  },
-                  child: const Text('Login'))
+                            MyToast.showToast(context, 'Welcome User');
+                            Navigator.pushNamed(context, 'home');
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              myToast('No user found for that email.');
+                            } else if (e.code == 'wrong-password') {
+                              myToast('Wrong password provided for that user.');
+                            }
+                          }
+                        },
+                        child: const Text('Login')),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'register');
+                        },
+                        child: const Text('Sign Up')),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -66,12 +85,9 @@ class _MyLoginState extends State<MyLogin> {
     );
   }
 
-  myToast(text) => Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black12,
-      textColor: Colors.white,
-      fontSize: 16.0);
+  myToast(text) => Toastification().show(
+        context: context,
+        title: text,
+        autoCloseDuration: const Duration(seconds: 5),
+      );
 }
